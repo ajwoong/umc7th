@@ -29,6 +29,15 @@ public class StoreController {
         return ApiResponse.onSuccess(ReviewConverter.reviewPreViewListDTO(reviewList));
     }
 
+    @GetMapping("{storeId}/review/my")
+    public ApiResponse<StoreResponseDTO.ReviewPreViewListDTO> getMyReviewList(@PathVariable("storeId") Long storeId,
+                                                                              @RequestParam(name = "page") Integer page,
+                                                                              @RequestParam(name = "memberId") Long memberId)
+                                                                             {
+        Page<Review> myReviewList = storeQueryService.getMyReviewList(storeId,memberId, page);
+        return ApiResponse.onSuccess(ReviewConverter.reviewPreViewListDTO(myReviewList));
+    }
+
 
     @PostMapping("{storeId}/review")
     public ApiResponse<StoreResponseDTO.SaveReviewResultDTO> saveReview(@RequestBody @Valid StoreRequestDTO.StoreReviewDTO request,
